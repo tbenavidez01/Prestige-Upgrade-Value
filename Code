@@ -1,0 +1,27 @@
+def worthit(before,cost,boost):
+  payed=before-cost
+  after=round(payed*boost)
+  if after>before:
+    print('yes')
+  elif after==before:
+    print('break even')
+  else:
+    need=before
+    while need>=after:
+      need+=1
+      payed=need-cost
+      after=round(payed*boost)
+    need=int(need)
+    for i in range(1,(len(str(need))-1)):
+      m=0
+      m=m+1*10^i
+      need=need+m
+    else:
+      print('\nno, you need',str(int((need)))+'k','\nstill got',str(int((need-before))) + "k to go\n\n")
+
+
+before=float(input())
+cost=float(input())
+boost=float(input())
+
+worthit(before,cost,boost)

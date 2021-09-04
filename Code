@@ -1,27 +1,28 @@
-def worthit(before,cost,boost):
-  payed=before-cost
-  after=round(payed*boost)
-  if after>before:
+def worthit(start,cost,boost):  #function to determine increase is worth the cost
+  bought=start-cost             #start is how current amount, cost is cost, making bought whats left
+  final=round(bought*boost)      #boost is the increase of the upgrade as a multiplier, final is value after increase
+  if final>start:              #establishing good buy
     print('yes')
-  elif after==before:
+  elif final==start:            #when rounding multiple start int could break even, no long functional
     print('break even')
-  else:
-    need=before
-    while need>=after:
-      need+=1
-      payed=need-cost
-      after=round(payed*boost)
-    need=int(need)
-    for i in range(1,(len(str(need))-1)):
-      m=0
-      m=m+1*10^i
-      need=need+m
+  else:                         #determining what info i want back from the data, originally this would just print no
+    need=start                   #need is how much currency is needed to make the purchase profitable, MORE than break even
+    after=final                   #final as after initial value
+    while need>=after:          #need value will initialy = start and + 1 until it is greater than after
+      need+=1                   #incriment by 1 to say the first value after needs to be profitable
+      buy=need-cost           #run new values through the same formula
+      after=round(buy*boost)    #after becomes the new boosted value after need +1's
+    intneed=int(need)            #### this is game specific for log purchases    #######cast float to int
+    for i in range(1,(len(str(intneed))-1)):     #cast intneed to str to get length and subtract one so loop stops one iteration before value
+      prior=0           #initial value
+      prior+=1*10^i       #this will include purchases made before based on the cost
+      intneed+=prior        #adding prior purchases to intneed value
     else:
-      print('\nno, you need',str(int((need)))+'k','\nstill got',str(int((need-before))) + "k to go\n\n")
+      print('\nno, you need',str(int((need)))+'k','\nstill got',str(int((need-start))) + "k to go\n\n")
 
 
-before=float(input())
+start=float(input())
 cost=float(input())
 boost=float(input())
 
-worthit(before,cost,boost)
+worthit(start,cost,boost)

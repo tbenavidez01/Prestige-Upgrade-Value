@@ -1,28 +1,15 @@
-def worthit(start,cost,boost):  #function to determine increase is worth the cost
-  bought=start-cost             #start is how current amount, cost is cost, making bought whats left
-  final=round(bought*boost)      #boost is the increase of the upgrade as a multiplier, final is value after increase
-  if final>start:              #establishing good buy
-    print('yes')
-  elif final==start:            #when rounding multiple start int could break even, no long functional
-    print('break even')
-  else:                         #determining what info i want back from the data, originally this would just print no
-    need=start                   #need is how much currency is needed to make the purchase profitable, MORE than break even
-    after=final                   #final as after initial value
-    while need>=after:          #need value will initialy = start and + 1 until it is greater than after
-      need+=1                   #incriment by 1 to say the first value after needs to be profitable
-      buy=need-cost           #run new values through the same formula
-      after=round(buy*boost)    #after becomes the new boosted value after need +1's
-    intneed=int(need)            #### this is game specific for log purchases    #######cast float to int
-    for i in range(1,(len(str(intneed))-1)):     #cast intneed to str to get length and subtract one so loop stops one iteration before value
-      prior=0           #initial value
-      prior+=1*10^i       #this will include purchases made before based on the cost
-      intneed+=prior        #adding prior purchases to intneed value
-    else:
-      print('\nno, you need',str(int((need)))+'k','\nstill got',str(int((need-start))) + "k to go\n\n")
+def worthit(boost):  #function to determine increase is worth the cost
+  need=1000                #working on a log scale so just mentally adjusting so that cost is 1000 #ie start 2.52m and cost 10m becomes 252,1000
+  after=999                #giving the loop initial value to work with
+  while need>=after:        #loop until given a profitable value
+    need+=1                 #increments by one and checks if thats enough for the boost
+    buy=need-1000         #subtracting the cost scaled to 1000
+    after=round(buy*boost)   #new after value to compare the increased need to
+  intneed=int(need+111)      #cast to int while adding on the cost of known previous purchases regardless of scale
+  print('\nyou need',intneed,'\nstill got',(intneed-start),"to go\n\n")       #showing the value i would need to make profit from given boost while showing how much needed to earn from prestige to reach that minimum
 
 
-start=float(input())
-cost=float(input())
-boost=float(input())
+start=float(input())          #how much currency owned
+boost=float(input())        #increased value as a float, entered value must be converted from percentage before hand if needed
 
-worthit(start,cost,boost)
+worthit(boost)        #done
